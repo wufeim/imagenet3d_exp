@@ -1,0 +1,4 @@
+model:
+  class_name: imagenet3d.models.resnetpose.ResNetPose
+  backbone: resnet50
+  output_dim: 120

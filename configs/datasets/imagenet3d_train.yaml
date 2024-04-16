@@ -1,0 +1,5 @@
+data:
+  train:
+    class_name: imagenet3d.datasets.imagenet3d.IMAGENET3DPose
+    root_path: /home/wufeim/research/imagenet3d_exp/imagenet3d_data_processed_512_512
+    transform_list: None
