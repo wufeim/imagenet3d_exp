@@ -4,7 +4,8 @@ from .dnnlib import EasyDict, construct_class_by_name, call_func_by_name
 from .general import setup_logging
 from .meter import AverageMeter
 from .multi_bin import continuous_to_bin, bin_to_continuous, MultiBin
-from .pose_utils import pose_error
+from .pose_utils import pose_error, batch_pose_error
+from .nmm_utils import MeshConverter, direction_calculator, cal_point_weight, load_off
 
 IMAGENET_CATES = [
     'aeroplane', 'airship', 'ambulance', 'ashtray', 'ax', 'backpack', 'basket', 'beaker', 'bed', 'bench',

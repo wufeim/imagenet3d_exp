@@ -83,19 +83,27 @@ def build_dataset(data_cfg, mode='train', **dataset_kwargs):
     return dataset
 
 
-def build_dataloader(cfg, **dataset_kwargs):
+def build_dataloader_train(cfg, **dataset_kwargs):
     train_dataset = build_dataset(cfg.data.train, 'train', **dataset_kwargs)
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=cfg.training.batch_size,
         shuffle=True,
         num_workers=cfg.training.workers)
+    return train_dataloader
 
+
+def build_dataloader_val(cfg, **dataset_kwargs):
     val_dataset = build_dataset(cfg.data.val, 'val', **dataset_kwargs)
     val_dataloader = DataLoader(
         val_dataset,
         batch_size=cfg.evaluate.batch_size,
         shuffle=False,
         num_workers=cfg.training.workers)
+    return val_dataloader
 
+
+def build_dataloader(cfg, **dataset_kwargs):
+    train_dataloader = build_dataloader_train(cfg, **dataset_kwargs)
+    val_dataloader = build_dataloader_val(cfg, **dataset_kwargs)
     return train_dataloader, val_dataloader
