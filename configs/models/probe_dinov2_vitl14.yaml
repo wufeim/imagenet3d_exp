@@ -1,0 +1,5 @@
+includes:
+  - configs/models/probe_dinov2_vits14.yaml
+
+model:
+  backbone: facebook/dinov2-large

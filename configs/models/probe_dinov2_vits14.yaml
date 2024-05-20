@@ -1,0 +1,27 @@
+model:
+  class_name: imagenet3d.models.probe_transformers.ProbeTransformers
+  backbone: facebook/dinov2-small
+  heads:
+    - 40
+    - 40
+    - 40
+  use_n_blocks_list:
+    - 1
+    - 4
+  avgpool_list:
+    - True
+    - False
+  lr_list:
+    - 1e-5
+    - 2e-5
+    - 5e-5
+    - 1e-4
+    - 2e-4
+    - 5e-4
+    - 1e-3
+    - 2e-3
+    - 5e-3
+    - 1e-2
+    - 2e-2
+    - 5e-2
+    - 0.1

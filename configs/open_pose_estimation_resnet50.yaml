@@ -1,0 +1,181 @@
+includes:
+  - configs/default.yaml
+  - configs/datasets/imagenet3d_train.yaml
+  - configs/datasets/imagenet3d_val.yaml
+  - configs/models/pose_est_resnet50.yaml
+
+data:
+  train:
+    categories:
+      - aeroplane
+      - car
+      - bus
+      - boat
+      - ashtray
+      - backpack
+      - ax
+      - baseball_bat
+      - shovel
+      - babby_buggy
+      - jinrikisha
+      - bed
+      - chair
+      - sofa
+      - bookshelf
+      - clock
+      - coffee_maker
+      - computer
+      - keyboard
+      - hair_dryer
+      - dishwasher
+      - washer
+      - camera
+      - bicycle
+      - motorbike
+      - snowmobile
+      - basket
+      - diningtable
+      - bottle
+      - can
+      - plate
+      - barbell
+      - faucet
+      - sink
+      - guitar
+      - piano
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.Resize
+        height: 256
+        width: 256
+      - class_name: imagenet3d.datasets.RandomHorizontalFlip
+      - class_name: imagenet3d.datasets.Normalize
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic
+  val:
+    categories:
+      - airship
+      - agitator_truck
+      - fire_truck
+      - forklift
+      - garbage_truck
+      - go_kart
+      - golfcart
+      - harvester
+      - recreational_vehicle
+      - tank
+      - tractor
+      - train
+      - trolley_bus
+      - cap
+      - bow
+      - chain_saw
+      - hammer
+      - knife
+      - hand_barrow
+      - shopping_cart
+      - wheelchair
+      - cart
+      - filing_cabinet
+      - bench
+      - cabinet
+      - combination_lock
+      - desk_lamp
+      - fan
+      - laptop
+      - microwave
+      - pay_phone
+      - power_drill
+      - printer
+      - projector
+      - refrigerator
+      - speaker
+      - telephone
+      - vending_machine
+      - washing_machine
+      - watch
+      - calculator
+      - cellphone
+      - kettle
+      - mouse
+      - remote_control
+      - stove
+      - toaster
+      - tvmonitor
+      - bicycle_built_for_two
+      - scooter
+      - segway
+      - tricycle
+      - unicycle
+      - basketball_hoop
+      - bucket
+      - trash_bin
+      - billbard_table
+      - tennis_table
+      - bowl
+      - bowling_pin
+      - cup
+      - jar
+      - potpan
+      - salt_or_pepper_shaker
+      - trophy
+      - wine_glass
+      - dumbbell
+      - fire_extinguisher
+      - hair_dryer
+      - rifle
+      - toilet
+      - harp
+      - trumpet
+      - violin
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.Resize
+        height: 256
+        width: 256
+      - class_name: imagenet3d.datasets.Normalize
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic
+
+multi_bin:
+  num_bins: 40
+  min_value: 0.0
+  max_value: 6.2831853071795865
+  border_type: periodic
+
+training:
+  evaluate_freq: 10
+  checkpoint_freq: 120
+  log_freq: 100
+
+  epochs: 120
+  batch_size: 64
+  workers: 8
+
+  loss:
+    class_name: torch.nn.CrossEntropyLoss
+
+  optimizer:
+    class_name: torch.optim.SGD
+    lr: 0.01
+    momentum: 0.9
+    weight_decay: 0.0001
+
+  scheduler:
+    class_name: torch.optim.lr_scheduler.StepLR
+    step_size: 40
+    gamma: 0.1
+
+evaluate:
+  batch_size: 64
+  workers: 8

@@ -1,0 +1,15 @@
+includes:
+  - configs/linear_probing_dinov2_vits14.yaml
+
+model:
+  backbone: facebook/sam-vit-base
+
+data:
+  train:
+    image_processor:
+      class_name: transformers.SamProcessor
+      pretrained_model_name_or_path: facebook/sam-vit-base
+  val:
+    image_processor:
+      class_name: transformers.SamProcessor
+      pretrained_model_name_or_path: facebook/sam-vit-base

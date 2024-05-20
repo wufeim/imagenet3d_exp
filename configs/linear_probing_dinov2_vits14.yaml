@@ -1,0 +1,61 @@
+includes:
+  - configs/default.yaml
+  - configs/datasets/imagenet3d_train.yaml
+  - configs/datasets/imagenet3d_val.yaml
+  - configs/models/probe_dinov2_vits14.yaml
+
+data:
+  train:
+    image_processor:
+      class_name: transformers.AutoImageProcessor
+      pretrained_model_name_or_path: facebook/dinov2-small
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.RandomHorizontalFlip
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic
+  val:
+    image_processor:
+      class_name: transformers.AutoImageProcessor
+      pretrained_model_name_or_path: facebook/dinov2-small
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic
+
+multi_bin:
+  num_bins: 40
+  min_value: 0.0
+  max_value: 6.2831853071795865
+  border_type: periodic
+
+training:
+  evaluate_freq: 5
+  checkpoint_freq: 5
+  log_freq: 100
+
+  epochs: 5
+  batch_size: 128
+  workers: 8
+
+  loss:
+    class_name: torch.nn.CrossEntropyLoss
+
+  optimizer:
+    class_name: torch.optim.SGD
+    momentum: 0.9
+    weight_decay: 0.0
+
+  scheduler:
+    class_name: torch.optim.lr_scheduler.CosineAnnealingLR
+    T_max: -1
+
+evaluate:
+  batch_size: 128
+  workers: 8
