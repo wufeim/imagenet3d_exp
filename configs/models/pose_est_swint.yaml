@@ -1,0 +1,4 @@
+model:
+  class_name: imagenet3d.models.swintranspose.SwinTransPose
+  backbone: swin_t
+  output_dim: 120
