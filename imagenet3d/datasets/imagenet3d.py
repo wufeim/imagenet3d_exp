@@ -30,7 +30,7 @@ class IMAGENET3DPose(Dataset):
         else:
             self.image_processor = None
         if categories is None:
-            self.categories = IMAGENET_CATES
+            self.categories = os.listdir(os.path.join(root_path, mode, 'images'))
         else:
             self.categories = categories
         self.categories = sorted(self.categories)
@@ -67,7 +67,8 @@ class IMAGENET3DPose(Dataset):
             'elevation': float(annot['elevation']),
             'theta': float(annot['theta']),
             'distance': float(annot['distance']),
-            'cate': cate_idx}
+            'cate': cate_idx,
+            'cate_name': cate}
 
         if self.transforms is not None:
             sample = self.transforms(sample)
