@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 
@@ -18,6 +19,7 @@ def parse_args():
     parser.add_argument('--exp_name', type=str, default='linear_probing_dinov2_vits14')
     parser.add_argument('--config', type=str, default='configs/linear_probing_dinov2_vits14.yaml')
     parser.add_argument('--output_dir', type=str, default='exp')
+    parser.add_argument('--epochs', type=int, default=5)
     parser.add_argument('--dry_run', action='store_true')
     return parser.parse_args()
 
@@ -72,12 +74,16 @@ def evaluate(model, dataloader, cfg, epo):
     # In linear probing setting, backbone always in eval() mode.
     # model.eval()
 
-    pose_errors = {}
+    pose_errors, categories, sample_names = {}, [], []
     for i, sample in enumerate(dataloader):
         img = sample['img'].cuda(non_blocking=True)
         azimuth = sample['azimuth']
         elevation = sample['elevation']
         theta = sample['theta']
+        cates = sample['cate_name']
+        names = sample['name']
+        categories += cates
+        sample_names += names
 
         outputs = model(img)
 
@@ -89,11 +95,18 @@ def evaluate(model, dataloader, cfg, epo):
                 pose_errors[k] = []
             pose_errors[k] += batch_pose_error(
                 (azimuth.detach().cpu().numpy(), elevation.detach().cpu().numpy(), theta.detach().cpu().numpy()),
-                (azimuth_pred, elevation_pred, theta_pred)).tolist()
+                (azimuth_pred, elevation_pred, theta_pred)).real.tolist()
             # for j in range(img.shape[0]):
             #     pose_errors[k].append(pose_error(
             #         {'azimuth': azimuth[j], 'elevation': elevation[j], 'theta': theta[j]},
             #         {'azimuth': azimuth_pred[j], 'elevation': elevation_pred[j], 'theta': theta_pred[j]}))
+
+    save_dict = {
+        'sample_names': sample_names,
+        'categories': categories,
+        'pose_errors': pose_errors}
+    with open(os.path.join(args.output_dir, f'evaluate_epo{epo+1}.json'), 'w') as fp:
+        json.dump(save_dict, fp)
 
     best_pi_6_acc, best_model_name = 0.0, None
     results = {}
@@ -126,6 +139,7 @@ def main(args):
     cfg = load_config(args.config)
     cfg.exp_name = args.exp_name
     cfg.output_dir = args.output_dir
+    cfg.training.epochs = args.epochs
     if is_main_process():
         logging.info(f'Configuration:\n{OmegaConf.to_yaml(cfg)}')
         save_config(cfg, os.path.join(args.output_dir, 'config.yaml'))
