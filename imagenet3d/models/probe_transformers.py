@@ -24,12 +24,12 @@ class ProbeTransformers(nn.Module):
         elif 'dinov2' in backbone:
             from transformers import AutoModel
             self.backbone = AutoModel.from_pretrained(backbone)
+        elif 'dino' in backbone:
+            from transformers import ViTModel
+            self.backbone = ViTModel.from_pretrained(backbone)
         elif 'clip' in backbone:
             from transformers import CLIPVisionModel
             self.backbone = CLIPVisionModel.from_pretrained(backbone)
-        elif 'sam' in backbone:
-            from transformers import SamModel
-            model = SamModel.from_pretrained(backbone)
         else:
             raise ValueError(f'Backbone {backbone} not recognized')
         self.backbone.eval()
@@ -58,7 +58,8 @@ class ProbeTransformers(nn.Module):
         return features
 
     def forward(self, x):
-        x_tokens_list = self.get_intermediate_layers(x)
+        with torch.no_grad():
+            x_tokens_list = self.get_intermediate_layers(x)
         return {k: v(x_tokens_list) for k, v in self.classifiers_dict.items()}
 
     def __len__(self):
