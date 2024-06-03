@@ -6,6 +6,7 @@ from .meter import AverageMeter
 from .multi_bin import continuous_to_bin, bin_to_continuous, MultiBin
 from .pose_utils import pose_error, batch_pose_error
 from .nmm_utils import MeshConverter, direction_calculator, cal_point_weight, load_off
+from .classification_utils import eval_classification
 
 IMAGENET_CATES = [
     'aeroplane', 'airship', 'ambulance', 'ashtray', 'ax', 'backpack', 'basket', 'beaker', 'bed', 'bench',

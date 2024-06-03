@@ -152,6 +152,15 @@ if __name__ == '__main__':
     a1, e1, t1 = np.array([a1, a1, a1, a1]), np.array([e1, e1, e1, e1]), np.array([t1, t1, t1, t1])
     print(batch_pose_error((a, e, t), (a1, e1, t1)))
 
+    a1 = 3.1415927
+    e1 = 1.5707964
+    t1 = 0.0
+    a2 = 0.07853982
+    e2 = 0.07853982
+    t2 = 0.07853982
+    print(pose_error((a1, e1, t1), (a2, e2, t2)))
+    exit()
+
     for i in range(1000):
         a1 = np.random.rand(10) * 2 * np.pi
         e1 = np.random.rand(10) * 2 * np.pi
@@ -163,3 +172,4 @@ if __name__ == '__main__':
         errors1 = np.array([pose_error((a1[j], e1[j], t1[j]), (a2[j], e2[j], t2[j])) for j in range(10)])
         errors2 = batch_pose_error((a1, e1, t1), (a2, e2, t2))
         assert np.max(np.abs(errors2 - errors1)) < 1e-6
+        assert not np.any(np.iscomplex(errors2)), f'{a1} {e1} {t1} {a2} {e2} {t2}'
