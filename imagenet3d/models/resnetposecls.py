@@ -21,7 +21,7 @@ class ResNetPoseCls(nn.Module):
         else:
             self.model.fc = nn.Linear(512 * 4, self.pose_output_dim + self.cls_output_dim)
 
-        out_dim = 512 * 1 if self.backbone == 'resnet18' else 512 * 4
+        out_dim = 512 * 1 if self.backbone in ['resnet18', 'resnet34'] else 512 * 4
 
         self.cls_head = nn.Linear(out_dim, self.cls_output_dim)
         self.cls_head.weight.data.normal_(mean=0.0, std=0.01)
