@@ -1,7 +1,7 @@
 from .configuration import load_config, save_config
 from .distributed_utils import is_main_process, is_dist_enabled, get_world_size, get_global_rank
 from .dnnlib import EasyDict, construct_class_by_name, call_func_by_name
-from .general import setup_logging
+from .general import setup_logging, get_project_root, get_pkg_root
 from .meter import AverageMeter
 from .multi_bin import continuous_to_bin, bin_to_continuous, MultiBin
 from .pose_utils import pose_error, batch_pose_error
