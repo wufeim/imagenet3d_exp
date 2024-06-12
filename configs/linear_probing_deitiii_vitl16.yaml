@@ -1,0 +1,3 @@
+includes:
+  - configs/linear_probing_deitiii_vitb16.yaml
+  - configs/models/probe_deitiii_vitl16.yaml

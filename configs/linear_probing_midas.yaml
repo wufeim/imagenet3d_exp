@@ -1,0 +1,36 @@
+includes:
+  - configs/linear_probing_dinov2_vits14.yaml
+  - configs/models/probe_midas.yaml
+
+data:
+  train:
+    image_processor: null
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.Resize
+        height: 384
+        width: 384
+      - class_name: imagenet3d.datasets.RandomHorizontalFlip
+      - class_name: imagenet3d.datasets.Normalize
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic
+  val:
+    image_processor: null
+    transform_list:
+      - class_name: imagenet3d.datasets.ToTensor
+      - class_name: imagenet3d.datasets.Resize
+        height: 384
+        width: 384
+      - class_name: imagenet3d.datasets.Normalize
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
+      - class_name: imagenet3d.datasets.PoseToLabel
+        num_bins: 40
+        min_value: 0.0
+        max_value: 6.2831853071795865
+        border_type: periodic

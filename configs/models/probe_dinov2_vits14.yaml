@@ -6,8 +6,9 @@ model:
     - 40
     - 40
   use_n_blocks_list:
-    - 1
-    - 4
+    - 1_last
+    - 4_last
+    - 4_uniform
   avgpool_list:
     - True
     - False

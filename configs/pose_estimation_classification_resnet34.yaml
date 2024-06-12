@@ -1,0 +1,5 @@
+includes:
+  - configs/pose_estimation_classification_resnet50.yaml
+
+model:
+  backbone: resnet34

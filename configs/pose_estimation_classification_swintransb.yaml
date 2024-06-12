@@ -1,0 +1,11 @@
+includes:
+  - configs/pose_estimation_classification_swintranst.yaml
+
+model:
+  backbone: swin_b
+
+training:
+  batch_size: 48
+
+evaluate:
+  batch_size: 64

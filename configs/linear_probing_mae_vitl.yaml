@@ -1,0 +1,15 @@
+includes:
+  - configs/linear_probing_dinov2_vits14.yaml
+
+model:
+  backbone: facebook/vit-mae-large
+
+data:
+  train:
+    image_processor:
+      class_name: transformers.AutoImageProcessor
+      pretrained_model_name_or_path: facebook/vit-mae-large
+  val:
+    image_processor:
+      class_name: transformers.AutoImageProcessor
+      pretrained_model_name_or_path: facebook/vit-mae-large

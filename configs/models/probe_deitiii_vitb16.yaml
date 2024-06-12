@@ -1,0 +1,6 @@
+includes:
+  - configs/models/probe_dinov2_vits14.yaml
+
+model:
+  class_name: imagenet3d.models.probe_deitiii.ProbeDeiTIII
+  backbone: deitiii_base

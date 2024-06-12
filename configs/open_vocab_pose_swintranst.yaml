@@ -1,0 +1,3 @@
+includes:
+  - configs/open_vocab_pose_resnet50.yaml
+  - configs/models/pose_est_swint.yaml
