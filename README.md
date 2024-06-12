@@ -1,6 +1,12 @@
-# ImageNet3D
+# ImageNet3D Experiments
 
 **ImageNet3D** dataset and helper code, from the following paper:
+
+- [Overview](#overview)
+- [Installation](#installation)
+- [Preparing ImageNet3D Data](#preparing-imagenet3d-data)
+- [Tasks](#tasks)
+- [Citation](#citation)
 
 ## Overview
 
@@ -14,18 +20,44 @@ pip install pillow matplotlib opencv_python scipy tqdm omegaconf wandb
 pip install -e .
 ```
 
-## Download ImageNet3D
+## Preparing ImageNet3D Data
 
-Modify the `local_dir` parameter to your local directory.
+1. Download ImageNet3D data from [huggingface.co](https://huggingface.co/datasets/ccvl/ImageNet3D).
 
-```py
-from huggingface_hub import hf_hub_download
-hf_hub_download(
-    repo_id='ccvl/imagenet3d-0409',
-    repo_type='dataset',
-    filename='imagenet3d_0409.zip',
-    local_dir='/path/to/imagenet3d_0409.zip',
-    local_dir_use_symlinks=False)
+2. Preparing object-centric images.
+
+    ```sh
+    python3 scripts/preprocess_data.py --center_and_resize
+    ```
+
+## Tasks
+
+### Linear Probing of Object-Level 3D Awareness
+
+```sh
+CUDA_VISIBLE_DEVICES=0 python3 scripts/linear_probing.py \
+    --config configs/linear_probing_dinov2_vitb14.yaml \
+    --exp_name linear_probing_dinov2_vitb14
+```
+
+Please refer to the `./configs` directory for configs for other backbones.
+
+### Open-Vocabulary Pose Estimation
+
+```sh
+CUDA_VISIBLE_DEVICES=0 python3 scripts/open_pose_estimation.py \
+    --config configs/open_pose_estimation_resnet50.yaml \
+    --exp_name open_pose_estimation_resnet50
+```
+
+## Join Image Classification and Category-Level Pose Estimation
+
+```sh
+CUDA_VISIBLE_DEVICES=0 python3 scripts/pose_estimation_classification.py \
+    --config configs/pose_estimation_classification_resnet50.yaml \
+    --exp_name pose_estimation_classification_resnet50
 ```
 
 ## Citation
+
+TBD.
