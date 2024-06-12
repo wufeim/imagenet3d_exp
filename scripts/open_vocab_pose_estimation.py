@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('--exp_name', type=str, default='pose_estimation_resnet50')
     parser.add_argument('--config', type=str, default='configs/pose_estimation_resnet50.yaml')
     parser.add_argument('--output_dir', type=str, default='exp')
-    parser.add_argument('--known_classes', type=str, default='/home/wufeim/research/imagenet3d_data/categories/knowns.txt')
+    parser.add_argument('--known_classes', type=str, default='known_categories.txt')
     parser.add_argument('--dry_run', action='store_true')
     return parser.parse_args()
 
