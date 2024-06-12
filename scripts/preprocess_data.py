@@ -29,7 +29,7 @@ def preprocess(cate, sample, img_path, annot_path, save_img_path, save_annot_pat
 
     preprocessed_samples = []
     for obj_id in range(len(annot)):
-        if annot[obj_id]['ignore'] > 0:
+        if 'object_status' not in annot[obj_id] or annot[obj_id]['object_status'] == 'status_bad':
             continue
 
         if annot[obj_id]['distance'] <= 0.0:
