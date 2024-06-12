@@ -16,7 +16,10 @@ class SwinTransPoseCls(nn.Module):
 
         self.model = torchvision.models.__dict__[self.backbone](pretrained=True)
 
-        out_dim = 768
+        if backbone in ['swin_t', 'swin_s']:
+            out_dim = 768
+        else:
+            out_dim = 1024
 
         self.cls_head = nn.Linear(out_dim, self.cls_output_dim)
         self.cls_head.weight.data.normal_(mean=0.0, std=0.01)
