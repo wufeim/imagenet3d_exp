@@ -18,7 +18,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Linear probing of self-supervised models')
     parser.add_argument('--exp_name', type=str, default='linear_probing_dinov2_vits14')
     parser.add_argument('--config', type=str, default='configs/linear_probing_dinov2_vits14.yaml')
-    parser.add_argument('--output_dir', type=str, default='exp')
+    parser.add_argument('--output_dir', type=str, default='exp_deeplayers')
     parser.add_argument('--epochs', type=int, default=5)
     parser.add_argument('--dry_run', action='store_true')
     return parser.parse_args()
@@ -106,6 +106,8 @@ def evaluate(model, dataloader, cfg, epo):
         'categories': categories,
         'pose_errors': pose_errors}
     with open(os.path.join(args.output_dir, f'evaluate_epo{epo+1}.json'), 'w') as fp:
+        json.dump(save_dict, fp)
+    with open(os.path.join(args.output_dir, f'evaluate_epolast.json'), 'w') as fp:
         json.dump(save_dict, fp)
 
     best_pi_6_acc, best_model_name = 0.0, None
